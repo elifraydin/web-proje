@@ -7,5 +7,8 @@ namespace Proje.Models
 {
     public class Malzeme
     {
+        public int Id { get; set; }
+
+        public string MalzemeAdi { get; set; }
     }
 }
