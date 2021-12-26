@@ -8,14 +8,10 @@ namespace Proje.Models
     public class YemekMalzeme
     {
         public int Id { get; set; }
-
         public int YemekId { get; set; }
-
         public Yemek Yemek { get; set; }
         public int MalzemeId { get; set; }
-
         public string MalzemeMiktari { get; set; }
-
         public Malzeme Malzeme { get; set; }
     }
 }
