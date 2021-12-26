@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Proje.Migrations
 {
-    public partial class olus : Migration
+    public partial class mgrt : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,9 @@ namespace Proje.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Ad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Soyad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DogumTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -118,8 +121,8 @@ namespace Proje.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -163,8 +166,8 @@ namespace Proje.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -205,7 +208,7 @@ namespace Proje.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MalzemeYemek",
+                name: "YemekMalzeme",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -216,15 +219,15 @@ namespace Proje.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MalzemeYemek", x => x.Id);
+                    table.PrimaryKey("PK_YemekMalzeme", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MalzemeYemek_Malzeme_MalzemeId",
+                        name: "FK_YemekMalzeme_Malzeme_MalzemeId",
                         column: x => x.MalzemeId,
                         principalTable: "Malzeme",
                         principalColumn: "MalzemeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MalzemeYemek_Yemek_YemekId",
+                        name: "FK_YemekMalzeme_Yemek_YemekId",
                         column: x => x.YemekId,
                         principalTable: "Yemek",
                         principalColumn: "Id",
@@ -271,19 +274,19 @@ namespace Proje.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MalzemeYemek_MalzemeId",
-                table: "MalzemeYemek",
-                column: "MalzemeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MalzemeYemek_YemekId",
-                table: "MalzemeYemek",
-                column: "YemekId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Yemek_KategoriId",
                 table: "Yemek",
                 column: "KategoriId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_YemekMalzeme_MalzemeId",
+                table: "YemekMalzeme",
+                column: "MalzemeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_YemekMalzeme_YemekId",
+                table: "YemekMalzeme",
+                column: "YemekId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -304,7 +307,7 @@ namespace Proje.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "MalzemeYemek");
+                name: "YemekMalzeme");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

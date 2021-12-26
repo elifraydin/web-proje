@@ -49,7 +49,7 @@ namespace Proje.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+          //  [Required]
             public string Name { get; set; }
 
             [Required]
@@ -110,7 +110,7 @@ namespace Proje.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _userManager.AddToRoleAsync(user, role.Name);
+                    //await _userManager.AddToRoleAsync(user, role.Name);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

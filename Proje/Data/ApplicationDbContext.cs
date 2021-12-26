@@ -22,6 +22,7 @@ namespace Proje.Data
 
         public DbSet<YemekMalzeme> YemekMalzeme { get; set; }
 
+       
 
     }
 }

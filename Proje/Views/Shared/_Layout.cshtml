@@ -31,28 +31,9 @@
 </head>
 <body>
     <header>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Uygulama</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <partial name="_LoginPartial" />
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>*@
+   
 
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger fixed-top">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-success fixed-top">
             <div class="container">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">@Localizer["tarif"]</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,14 +64,7 @@
                 </div>
             </div>
             <!-- Navbar Search-->
-            @*<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                    <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Nefis yemekler arayınız..." aria-label="Search" aria-describedby="basic-addon2" />
-                        <div class="input-group-append">
-                            <button class="btn btn-danger" type="button"><i class="fas fa-search">Ara</i></button>
-                        </div>
-                    </div>
-                </form>*@
+
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0 bg-danger">
                 <li class="nav-item dropdown bg-danger">
@@ -128,7 +102,7 @@
 
     <footer class="border-top footer bg-danger text-light">
         <div class="container">
-            &copy; 2020 - Yemek Tarifi
+            &copy; 2021 - Yemek Tarifi
         </div>
     </footer>
 
