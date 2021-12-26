@@ -135,8 +135,8 @@
   <data name="kayit" xml:space="preserve">
     <value>Kayit  Ol</value>
   </data>
-  <data name="malzeme" xml:space="preserve">
-    <value>Malzeme</value>
+  <data name="malzemeApi" xml:space="preserve">
+    <value>MalzemeApi</value>
   </data>
   <data name="pratik" xml:space="preserve">
     <value>Pratik Yemekler</value>

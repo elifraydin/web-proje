@@ -9,46 +9,46 @@ using System.Threading.Tasks;
 
 namespace Proje.API
 {
-    namespace WebYemek.API
+    namespace WebMalzeme.API
     {
-        [Route("api/[controller]")]
+       [Route("api/[controller]")]
         [ApiController]
-        public class YemekController : Controller
+        public class MalzemeController : Controller
         {
             private readonly ApplicationDbContext _context;
-            public YemekController(ApplicationDbContext context)
+            public MalzemeController(ApplicationDbContext context)
             {
                 _context = context;
             }
-            //api/yemek
+            //api/Malzeme
             [HttpGet]
-            public async Task<ActionResult<IEnumerable<Yemek>>> GetYemek()
+            public async Task<ActionResult<IEnumerable<Malzeme>>> GetMalzeme()
             {
-                return await _context.Yemek.ToListAsync();
+                return await _context.Malzeme.ToListAsync();
             }
-            // GET: api/Yemek/1
+            // GET: api/Malzeme/1
             [HttpGet("{id}")]
-            public async Task<ActionResult<Yemek>> GetYemek(int id)
+            public async Task<ActionResult<Malzeme>> GetMalzeme(int id)
             {
-                var Yemek = await _context.Yemek.FindAsync(id);
+                var Malzeme = await _context.Malzeme.FindAsync(id);
 
-                if (Yemek == null)
+                if (Malzeme == null)
                 {
                     return NotFound();
                 }
 
-                return Yemek;
+                return Malzeme;
             }
-            // PUT: api/Yemek/1
+            // PUT: api/Malzeme/1
             [HttpPut("{id}")]
-            public async Task<IActionResult> PutYemek(int id, Yemek Yemek)
+            public async Task<IActionResult> PutMalzeme(int id, Malzeme Malzeme)
             {
-                if (id != Yemek.Id)
+                if (id != Malzeme.MalzemeId)
                 {
                     return BadRequest();
                 }
 
-                _context.Entry(Yemek).State = EntityState.Modified;
+                _context.Entry(Malzeme).State = EntityState.Modified;
 
                 try
                 {
@@ -56,7 +56,7 @@ namespace Proje.API
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!YemekExists(id))
+                    if (!MalzemeExists(id))
                     {
                         return NotFound();
                     }
@@ -68,26 +68,26 @@ namespace Proje.API
 
                 return NoContent();
             }
-            // POST: api/Yemek
+            // POST: api/Malzeme
             [HttpPost]
-            public async Task<ActionResult<Yemek>> PostYemek(Yemek Yemek)
+            public async Task<ActionResult<Malzeme>> PostMalzeme(Malzeme Malzeme)
             {
-                _context.Yemek.Add(Yemek);
+                _context.Malzeme.Add(Malzeme);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetYemek", new { id = Yemek.Id }, Yemek);
+                return CreatedAtAction("GetMalzeme", new { id = Malzeme.MalzemeId }, Malzeme);
             }
-            // DELETE: api/Yemek/1
+            // DELETE: api/Malzeme/1
             [HttpDelete("{id}")]
-            public async Task<IActionResult> DeleteYemek(int id)
+            public async Task<IActionResult> DeleteMalzeme(int id)
             {
-                var Yemek = await _context.Yemek.FindAsync(id);
-                if (Yemek == null)
+                var Malzeme = await _context.Malzeme.FindAsync(id);
+                if (Malzeme == null)
                 {
                     return NotFound();
                 }
 
-                _context.Yemek.Remove(Yemek);
+                _context.Malzeme.Remove(Malzeme);
                 await _context.SaveChangesAsync();
 
                 return NoContent();
@@ -98,9 +98,9 @@ namespace Proje.API
             {
                 return View();
             }
-            private bool YemekExists(int id)
+            private bool MalzemeExists(int id)
             {
-                return _context.Yemek.Any(e => e.Id == id);
+                return _context.Malzeme.Any(e => e.MalzemeId == id);
             }
         }
     }

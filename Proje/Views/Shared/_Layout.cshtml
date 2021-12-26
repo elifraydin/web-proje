@@ -19,6 +19,8 @@
                     culture = Context.Request.Query["culture"];
                     uiculture = Context.Request.Query["ui-culture"];
                 } }
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +43,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <partial name="_LoginPartial" />
+
 
 
                     <ul class="navbar-nav ml-auto">
@@ -83,7 +86,7 @@
             <div class="dropdown-menu dropdown-menu-right bg-success text-light" aria-labelledby="userDropdown">
 
                 <a class="dropdown-item text-light" asp-area="" asp-controller="Kategori" asp-action="Index">@Localizer["kategori"]</a>
-                <a class="dropdown-item text-light" asp-area="" asp-controller="Malzeme" asp-action="Index">@Localizer["malzeme"]</a>
+                <a class="dropdown-item text-light" asp-area="" asp-controller="Malzeme" asp-action="Index">@Localizer["malzemeApi"]</a>
                 <a class="dropdown-item text-light" asp-area="" asp-controller="Yemek" asp-action="Index">@Localizer["yemek"]</a>
                 <a class="dropdown-item text-light" asp-area="" asp-controller="YemekMalzeme" asp-action="Index">@Localizer["ym"]</a>
                 <a class="dropdown-item text-light" asp-area="" asp-controller="Role" asp-action="Index">Role</a>
