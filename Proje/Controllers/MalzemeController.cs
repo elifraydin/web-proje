@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Proje.Data;
 using Proje.Models;
 
@@ -14,9 +15,12 @@ namespace Proje.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public MalzemeController(ApplicationDbContext context)
+        private readonly IStringLocalizer<MalzemeController> _localizer;
+
+        public MalzemeController(ApplicationDbContext context, IStringLocalizer<MalzemeController> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
 
         // GET: Malzeme
@@ -34,7 +38,7 @@ namespace Proje.Controllers
             }
 
             var malzeme = await _context.Malzeme
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.MalzemeId == id);
             if (malzeme == null)
             {
                 return NotFound();
@@ -50,11 +54,11 @@ namespace Proje.Controllers
         }
 
         // POST: Malzeme/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MalzemeAdi")] Malzeme malzeme)
+        public async Task<IActionResult> Create([Bind("MalzemeId,MalzemeAdi")] Malzeme malzeme)
         {
             if (ModelState.IsValid)
             {
@@ -82,13 +86,13 @@ namespace Proje.Controllers
         }
 
         // POST: Malzeme/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MalzemeAdi")] Malzeme malzeme)
+        public async Task<IActionResult> Edit(int id, [Bind("MalzemeId,MalzemeAdi")] Malzeme malzeme)
         {
-            if (id != malzeme.Id)
+            if (id != malzeme.MalzemeId)
             {
                 return NotFound();
             }
@@ -102,7 +106,7 @@ namespace Proje.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MalzemeExists(malzeme.Id))
+                    if (!MalzemeExists(malzeme.MalzemeId))
                     {
                         return NotFound();
                     }
@@ -125,7 +129,7 @@ namespace Proje.Controllers
             }
 
             var malzeme = await _context.Malzeme
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.MalzemeId == id);
             if (malzeme == null)
             {
                 return NotFound();
@@ -147,7 +151,7 @@ namespace Proje.Controllers
 
         private bool MalzemeExists(int id)
         {
-            return _context.Malzeme.Any(e => e.Id == id);
+            return _context.Malzeme.Any(e => e.MalzemeId == id);
         }
     }
 }

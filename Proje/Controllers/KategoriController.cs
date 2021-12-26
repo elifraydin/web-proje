@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Proje.Data;
 using Proje.Models;
 
@@ -13,10 +14,12 @@ namespace Proje.Controllers
     public class KategoriController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IStringLocalizer<KategoriController> _localizer;
 
-        public KategoriController(ApplicationDbContext context)
+        public KategoriController(ApplicationDbContext context, IStringLocalizer<KategoriController> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
 
         // GET: Kategori
@@ -34,7 +37,7 @@ namespace Proje.Controllers
             }
 
             var kategori = await _context.Kategori
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.KategoriId == id);
             if (kategori == null)
             {
                 return NotFound();
@@ -50,11 +53,11 @@ namespace Proje.Controllers
         }
 
         // POST: Kategori/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,KategoriAdi")] Kategori kategori)
+        public async Task<IActionResult> Create([Bind("KategoriId,KategoriAdi")] Kategori kategori)
         {
             if (ModelState.IsValid)
             {
@@ -82,13 +85,13 @@ namespace Proje.Controllers
         }
 
         // POST: Kategori/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,KategoriAdi")] Kategori kategori)
+        public async Task<IActionResult> Edit(int id, [Bind("KategoriId,KategoriAdi")] Kategori kategori)
         {
-            if (id != kategori.Id)
+            if (id != kategori.KategoriId)
             {
                 return NotFound();
             }
@@ -102,7 +105,7 @@ namespace Proje.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!KategoriExists(kategori.Id))
+                    if (!KategoriExists(kategori.KategoriId))
                     {
                         return NotFound();
                     }
@@ -125,7 +128,7 @@ namespace Proje.Controllers
             }
 
             var kategori = await _context.Kategori
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.KategoriId == id);
             if (kategori == null)
             {
                 return NotFound();
@@ -147,7 +150,7 @@ namespace Proje.Controllers
 
         private bool KategoriExists(int id)
         {
-            return _context.Kategori.Any(e => e.Id == id);
+            return _context.Kategori.Any(e => e.KategoriId == id);
         }
     }
 }

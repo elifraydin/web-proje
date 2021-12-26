@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Proje.Data;
 using Proje.Models;
 using System;
 using System.Collections.Generic;
@@ -9,24 +13,29 @@ using System.Threading.Tasks;
 
 namespace Proje.Controllers
 {
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IStringLocalizer<HomeController> _localizer;
+
+        public HomeController(ApplicationDbContext context, IStringLocalizer<HomeController> localizer)
         {
-            _logger = logger;
+            _context = context;
+            _localizer = localizer;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            var db = _context.Yemek
+                .Include(f => f.Kategori);//FK lar eklenmeli.
+            var model = await db.Take(3).ToListAsync();
+
+            return View(model);
+
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

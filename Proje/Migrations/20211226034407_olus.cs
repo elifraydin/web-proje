@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Proje.Migrations
 {
-    public partial class tablo : Migration
+    public partial class olus : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,26 +50,26 @@ namespace Proje.Migrations
                 name: "Kategori",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    KategoriId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KategoriAdi = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kategori", x => x.Id);
+                    table.PrimaryKey("PK_Kategori", x => x.KategoriId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Malzeme",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    MalzemeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MalzemeAdi = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Malzeme", x => x.Id);
+                    table.PrimaryKey("PK_Malzeme", x => x.MalzemeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,14 +184,14 @@ namespace Proje.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    YemekAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Afis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Adi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tarif = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KategoriId = table.Column<int>(type: "int", nullable: false),
-                    Porsiyon = table.Column<int>(type: "int", nullable: true),
-                    PismeSuresi = table.Column<int>(type: "int", nullable: true),
-                    YuklenmeTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HazirlanmaSuresi = table.Column<int>(type: "int", nullable: true)
+                    Resim = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KacKisilik = table.Column<int>(type: "int", nullable: true),
+                    HazirlikSuresi = table.Column<int>(type: "int", nullable: true),
+                    PisirmeSuresi = table.Column<int>(type: "int", nullable: true),
+                    YuklemeTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    KategoriId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,7 +200,7 @@ namespace Proje.Migrations
                         name: "FK_Yemek_Kategori_KategoriId",
                         column: x => x.KategoriId,
                         principalTable: "Kategori",
-                        principalColumn: "Id",
+                        principalColumn: "KategoriId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -210,9 +210,9 @@ namespace Proje.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MalzemeMiktari = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YemekId = table.Column<int>(type: "int", nullable: false),
-                    MalzemeId = table.Column<int>(type: "int", nullable: false)
+                    MalzemeId = table.Column<int>(type: "int", nullable: false),
+                    MalzemeMiktari = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,7 +221,7 @@ namespace Proje.Migrations
                         name: "FK_MalzemeYemek_Malzeme_MalzemeId",
                         column: x => x.MalzemeId,
                         principalTable: "Malzeme",
-                        principalColumn: "Id",
+                        principalColumn: "MalzemeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MalzemeYemek_Yemek_YemekId",

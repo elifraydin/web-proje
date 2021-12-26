@@ -8,7 +8,10 @@ namespace Proje.Models
 {
     public class Kategori
     {
-        public int Id { get; set; }
+        [Display(Name = "KategoriId")]
+        public int KategoriId { get; set; }
+
+        [Display(Name = "KategoriAdi")]
         public string KategoriAdi { get; set; }
 
     }

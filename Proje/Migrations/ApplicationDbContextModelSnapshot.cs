@@ -221,7 +221,7 @@ namespace Proje.Migrations
 
             modelBuilder.Entity("Proje.Models.Kategori", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("KategoriId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -229,14 +229,14 @@ namespace Proje.Migrations
                     b.Property<string>("KategoriAdi")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("KategoriId");
 
                     b.ToTable("Kategori");
                 });
 
             modelBuilder.Entity("Proje.Models.Malzeme", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MalzemeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -244,12 +244,50 @@ namespace Proje.Migrations
                     b.Property<string>("MalzemeAdi")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MalzemeId");
 
                     b.ToTable("Malzeme");
                 });
 
-            modelBuilder.Entity("Proje.Models.MalzemeYemek", b =>
+            modelBuilder.Entity("Proje.Models.Yemek", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Adi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HazirlikSuresi")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("KacKisilik")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KategoriId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PisirmeSuresi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Resim")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tarif")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("YuklemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KategoriId");
+
+                    b.ToTable("Yemek");
+                });
+
+            modelBuilder.Entity("Proje.Models.YemekMalzeme", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -272,44 +310,6 @@ namespace Proje.Migrations
                     b.HasIndex("YemekId");
 
                     b.ToTable("MalzemeYemek");
-                });
-
-            modelBuilder.Entity("Proje.Models.Yemek", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Afis")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("HazirlanmaSuresi")
-                        .HasColumnType("int");
-
-                    b.Property<int>("KategoriId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PismeSuresi")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Porsiyon")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Tarif")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("YemekAdi")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("YuklenmeTarihi")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KategoriId");
-
-                    b.ToTable("Yemek");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -363,7 +363,18 @@ namespace Proje.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Proje.Models.MalzemeYemek", b =>
+            modelBuilder.Entity("Proje.Models.Yemek", b =>
+                {
+                    b.HasOne("Proje.Models.Kategori", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Kategori");
+                });
+
+            modelBuilder.Entity("Proje.Models.YemekMalzeme", b =>
                 {
                     b.HasOne("Proje.Models.Malzeme", "Malzeme")
                         .WithMany()
@@ -380,17 +391,6 @@ namespace Proje.Migrations
                     b.Navigation("Malzeme");
 
                     b.Navigation("Yemek");
-                });
-
-            modelBuilder.Entity("Proje.Models.Yemek", b =>
-                {
-                    b.HasOne("Proje.Models.Kategori", "Kategori")
-                        .WithMany()
-                        .HasForeignKey("KategoriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kategori");
                 });
 #pragma warning restore 612, 618
         }

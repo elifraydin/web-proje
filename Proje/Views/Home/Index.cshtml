@@ -32,7 +32,7 @@
         @foreach (var item in Model)
         {
 <div class="@(item.Id==2 ? "carousel-item active" : "carousel-item")">
-    <img src="@item.Afis" class="d-block w-100 h-100">
+    <img src="@item.Resim" class="d-block w-100 h-100">
 </div>}
 
     </div>
@@ -54,10 +54,10 @@
     {
 <div class="col-lg-4 mb-4">
     <div class="card h-100">
-        <h4 class="card-header">@item.YemekAdi</h4>
+        <h4 class="card-header">@item.Adi</h4>
         <div class="card-body">
             <a href="#">
-                <img src="@item.Afis" class="d-block w-100 h-200">
+                <img src="@item.Resim" class="d-block w-100 h-200">
             </a>
         </div>
         <div class="card-footer">
@@ -69,9 +69,11 @@
 
 
 </div>
-<script>function SetCulture(selectedValue) {
+<script>
+    function SetCulture(selectedValue) {
         alert(selectedValue);
         var url = window.location.href.split('?')[0];
         var culture = "?culture=" + selectedValue + "&ui-culture=" + selectedValue;
         window.location.href = url + culture;
-    }</script>
+    }
+</script>

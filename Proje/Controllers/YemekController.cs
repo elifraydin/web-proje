@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Proje.Data;
 using Proje.Models;
 
@@ -14,9 +17,15 @@ namespace Proje.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public YemekController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        private readonly IStringLocalizer<YemekController> _localizer;
+
+        public YemekController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment, IStringLocalizer<YemekController> localizer)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
+            _localizer = localizer;
         }
 
         // GET: Yemek
@@ -48,24 +57,40 @@ namespace Proje.Controllers
         // GET: Yemek/Create
         public IActionResult Create()
         {
-            ViewData["KategoriId"] = new SelectList(_context.Kategori, "Id", "Id");
+            ViewData["KategoriId"] = new SelectList(_context.Kategori, "KategoriId", "KategoriAdi");
             return View();
         }
 
         // POST: Yemek/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,YemekAdi,Afis,Tarif,KategoriId,Porsiyon,PismeSuresi,YuklenmeTarihi,HazirlanmaSuresi")] Yemek yemek)
+        public async Task<IActionResult> Create([Bind("Id,Adi,Tarif,Resim,KacKisilik,HazirlikSuresi,PisirmeSuresi,YuklemeTarihi,KategoriId")] Yemek yemek)
         {
             if (ModelState.IsValid)
             {
+                //************
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(webRootPath, @"images\yemek");
+                var extension = Path.GetExtension(files[0].FileName);
+
+                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+
+                yemek.Resim = @"\images\yemek\" + fileName + extension;
+
+                //****************
                 _context.Add(yemek);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KategoriId"] = new SelectList(_context.Kategori, "Id", "Id", yemek.KategoriId);
+            ViewData["KategoriId"] = new SelectList(_context.Kategori, "KategoriId", "KategoriAdi", yemek.KategoriId);
             return View(yemek);
         }
 
@@ -82,16 +107,16 @@ namespace Proje.Controllers
             {
                 return NotFound();
             }
-            ViewData["KategoriId"] = new SelectList(_context.Kategori, "Id", "Id", yemek.KategoriId);
+            ViewData["KategoriId"] = new SelectList(_context.Kategori, "KategoriId", "KategoriAdi", yemek.KategoriId);
             return View(yemek);
         }
 
         // POST: Yemek/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,YemekAdi,Afis,Tarif,KategoriId,Porsiyon,PismeSuresi,YuklenmeTarihi,HazirlanmaSuresi")] Yemek yemek)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Adi,Tarif,Resim,KacKisilik,HazirlikSuresi,PisirmeSuresi,YuklemeTarihi,KategoriId")] Yemek yemek)
         {
             if (id != yemek.Id)
             {
@@ -118,7 +143,7 @@ namespace Proje.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KategoriId"] = new SelectList(_context.Kategori, "Id", "Id", yemek.KategoriId);
+            ViewData["KategoriId"] = new SelectList(_context.Kategori, "KategoriId", "KategoriAdi", yemek.KategoriId);
             return View(yemek);
         }
 
