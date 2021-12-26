@@ -53,7 +53,7 @@ namespace Proje.Controllers
 
             }
 
-            var tatlilar = yemekList.Where(x => x.KategoriAdi == "Tatlılar").ToList();
+            var tatlilar = yemekList.Where(x => x.KategoriAdi == "Tatlilar").ToList();
 
             return View(tatlilar);
         }
